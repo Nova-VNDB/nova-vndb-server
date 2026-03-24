@@ -1,0 +1,70 @@
+/// BCP-47 language codes supported by VNDB.
+///
+/// Most variants use `rename_all = "snake_case"` (which keeps them lowercase
+/// and unchanged), but hyphenated codes and mixed-case codes are overridden
+/// with an explicit `#[sqlx(rename = "...")]`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+#[sqlx(type_name = "language", rename_all = "snake_case")]
+pub enum Language {
+    Ar,
+    Be,
+    Bg,
+    Bs,
+    Ca,
+    Cs,
+    Ck,
+    Da,
+    De,
+    El,
+    En,
+    Eo,
+    Es,
+    Et,
+    Eu,
+    Fa,
+    Fi,
+    Fr,
+    Ga,
+    Gl,
+    Gd,
+    He,
+    Hi,
+    Hr,
+    Hu,
+    Id,
+    It,
+    Iu,
+    Ja,
+    Kk,
+    Ko,
+    Mk,
+    Ms,
+    Ne,
+    La,
+    Lt,
+    Lv,
+    Nl,
+    No,
+    Pl,
+    #[sqlx(rename = "pt-pt")]
+    PtPt,
+    #[sqlx(rename = "pt-br")]
+    PtBr,
+    Ro,
+    Ru,
+    Sk,
+    Sl,
+    Sr,
+    Sv,
+    Ta,
+    Th,
+    Tr,
+    Uk,
+    Ur,
+    Vi,
+    Zh,
+    #[sqlx(rename = "zh-Hans")]
+    ZhHans,
+    #[sqlx(rename = "zh-Hant")]
+    ZhHant,
+}
