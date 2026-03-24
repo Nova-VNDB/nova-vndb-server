@@ -1,6 +1,6 @@
 /// Anime media format.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
-#[sqlx(type_name = "anime_type", rename_all = "snake_case")]
+#[sqlx(type_name = "anime_type", rename_all = "lowercase")]
 pub enum AnimeType {
     Tv,
     Ova,

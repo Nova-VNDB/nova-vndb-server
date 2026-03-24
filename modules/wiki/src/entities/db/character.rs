@@ -1,41 +1,28 @@
 use super::language::Language;
+use time::Date;
 
 /// Biological sex of a character.
-///
-/// The empty-string DB value (`""`) maps to `Unknown`.
-/// `Both` means the character presents as both sexes; `NotApplicable` is for
-/// non-biological entities.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "char_sex", rename_all = "snake_case")]
 pub enum CharSex {
-    #[sqlx(rename = "")]
     Unknown,
-    #[sqlx(rename = "m")]
     Male,
-    #[sqlx(rename = "f")]
     Female,
-    #[sqlx(rename = "b")]
-    Both,
-    #[sqlx(rename = "n")]
-    NotApplicable,
+    Intersex,
+    Neuter,
+    Other,
 }
 
 /// Presented gender identity of a character.
 ///
 /// Distinct from `CharSex` (biological sex).
-/// The empty-string DB value (`""`) maps to `Unknown`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "char_gender", rename_all = "snake_case")]
 pub enum CharGender {
-    #[sqlx(rename = "")]
     Unknown,
-    #[sqlx(rename = "m")]
     Male,
-    #[sqlx(rename = "f")]
     Female,
-    #[sqlx(rename = "o")]
-    Other,
-    #[sqlx(rename = "a")]
+    NonBinary,
     Ambiguous,
 }
 
@@ -58,103 +45,89 @@ pub enum BloodType {
     B,
     Ab,
     O,
+    Other,
 }
 
 /// Bra cup size of a character.
 ///
 /// All DB values are uppercase, so each variant carries an explicit rename.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
-#[sqlx(type_name = "cup_size", rename_all = "snake_case")]
+#[sqlx(type_name = "cup_size", rename_all = "UPPERCASE")]
 pub enum CupSize {
-    #[sqlx(rename = "")]
     Unknown,
-    #[sqlx(rename = "AAA")]
     Aaa,
-    #[sqlx(rename = "AA")]
     Aa,
-    #[sqlx(rename = "A")]
     A,
-    #[sqlx(rename = "B")]
     B,
-    #[sqlx(rename = "C")]
     C,
-    #[sqlx(rename = "D")]
     D,
-    #[sqlx(rename = "E")]
     E,
-    #[sqlx(rename = "F")]
     F,
-    #[sqlx(rename = "G")]
     G,
-    #[sqlx(rename = "H")]
     H,
-    #[sqlx(rename = "I")]
     I,
-    #[sqlx(rename = "J")]
     J,
-    #[sqlx(rename = "K")]
     K,
-    #[sqlx(rename = "L")]
     L,
-    #[sqlx(rename = "M")]
     M,
-    #[sqlx(rename = "N")]
     N,
-    #[sqlx(rename = "O")]
     O,
-    #[sqlx(rename = "P")]
     P,
-    #[sqlx(rename = "Q")]
     Q,
-    #[sqlx(rename = "R")]
     R,
-    #[sqlx(rename = "S")]
     S,
-    #[sqlx(rename = "T")]
     T,
-    #[sqlx(rename = "U")]
     U,
-    #[sqlx(rename = "V")]
     V,
-    #[sqlx(rename = "W")]
     W,
-    #[sqlx(rename = "X")]
     X,
-    #[sqlx(rename = "Y")]
     Y,
-    #[sqlx(rename = "Z")]
     Z,
 }
 
 /// A character entry.
 ///
 /// `(main, main_spoil)` have been extracted to [`CharInstance`] (DKNF BCNF).
-/// Physical measurements are stored in cm/kg with 0 meaning "unknown".
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Char {
     pub id: i32,
     pub image_id: Option<i32>,
-    pub bloodt: BloodType,
-    pub cup_size: CupSize,
-    pub sex: CharSex,
+
+    pub blood_type: Option<BloodType>,
+
+    pub cup_size: Option<CupSize>,
+
+    pub sex: Option<CharSex>,
+
     /// Actual sex when it is a plot spoiler.
     pub spoil_sex: Option<CharSex>,
+
     pub gender: Option<CharGender>,
+
+    /// Actual gender when it is a plot spoiler.
     pub spoil_gender: Option<CharGender>,
+
     /// Bust measurement in cm.
-    pub s_bust: i16,
+    pub s_bust: Option<i16>,
+
     /// Waist measurement in cm.
-    pub s_waist: i16,
+    pub s_waist: Option<i16>,
+
     /// Hip measurement in cm.
-    pub s_hip: i16,
+    pub s_hip: Option<i16>,
+
     /// Birthday encoded as `0` (unknown) or `mmdd` (e.g. `1225` for Dec 25).
-    pub birthday: i16,
+    pub birthday: Date,
+
     /// Height in cm.
-    pub height: i16,
+    pub height: Option<i16>,
+
     /// Weight in kg.
     pub weight: Option<i16>,
+
     /// Age in years.
     pub age: Option<i16>,
+
     pub description: String,
 }
 
