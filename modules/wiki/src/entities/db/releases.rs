@@ -1,4 +1,5 @@
 use super::language::Language;
+use crate::entities::db::BoolOrUnknown;
 
 /// Release completeness type.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
@@ -86,11 +87,11 @@ pub enum Platform {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "release_image_type", rename_all = "snake_case")]
 pub enum ReleaseImageType {
-    Pkgfront,
-    Pkgback,
-    Pkgcontent,
-    Pkgside,
-    Pkgmed,
+    PkgFront,
+    PkgBack,
+    PkgContent,
+    PkgSide,
+    PkgMedium,
     Dig,
 }
 
@@ -108,9 +109,11 @@ pub struct Release {
     pub original_language: Language,
     pub released: i32,
     pub voiced: i16,
+
     /// Horizontal resolution. When 0, `reso_y` encodes special values.
-    pub resolution_x: i16,
-    pub resolution_y: i16,
+    pub resolution_x: Option<i16>,
+    pub resolution_y: Option<i16>,
+
     /// Age rating 0–18.
     pub age_rating: Option<i16>,
 
@@ -119,12 +122,12 @@ pub struct Release {
     pub ani_cutscene: Option<i16>,
     pub ani_ero_sp: Option<i16>,
     pub ani_ero_cg: Option<i16>,
-    pub ani_bg: Option<bool>,
-    pub ani_face: Option<bool>,
+    pub ani_bg: BoolOrUnknown,
+    pub ani_face: BoolOrUnknown,
     pub has_ero: bool,
     pub patch: bool,
     pub freeware: bool,
-    pub uncensored: Option<bool>,
+    pub uncensored: BoolOrUnknown,
     pub official: bool,
     pub catalog: String,
     pub notes: String,

@@ -13,3 +13,10 @@ pub mod staff;
 pub mod character;
 pub mod visual_novels;
 pub mod releases;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+pub enum BoolOrUnknown {
+    True,
+    False,
+    Unknown,
+}
