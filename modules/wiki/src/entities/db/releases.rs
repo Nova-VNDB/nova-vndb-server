@@ -11,21 +11,21 @@ pub enum ReleaseType {
 
 /// Physical or digital storage medium for a release.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
-#[sqlx(type_name = "medium", rename_all = "lowercase")]
+#[sqlx(type_name = "medium", rename_all = "snake_case")]
 pub enum Medium {
     Cd,
     Dvd,
-    Gdr,
-    Blr,
-    Flp,
-    Cas,
-    Mrt,
-    Mem,
+    GdRom,
+    BluRayDisc,
+    Floppy,
+    CassetteTape,
+    Cartridge,
+    MemoryCard,
     Umd,
-    Nod,
-    In,
-    Dc,
-    Otc,
+    NintendoOpticalDisc,
+    InternetDownload,
+    DownloadCard,
+    Other,
 }
 
 /// Target platform for a release.
@@ -105,18 +105,15 @@ pub struct Release {
     /// JAN/UPC/EAN/ISBN barcode.
     pub gtin: i64,
     /// Language of the main display title.
-    pub olang: Language,
+    pub original_language: Language,
     pub released: i32,
     pub voiced: i16,
     /// Horizontal resolution. When 0, `reso_y` encodes special values.
-    pub reso_x: i16,
-    pub reso_y: i16,
+    pub resolution_x: i16,
+    pub resolution_y: i16,
     /// Age rating 0–18.
-    pub minage: Option<i16>,
-    /// Deprecated: use `ani_story_sp` / `ani_story_cg` instead.
-    pub ani_story: i16,
-    /// Deprecated: use `ani_ero_sp` / `ani_ero_cg` instead.
-    pub ani_ero: i16,
+    pub age_rating: Option<i16>,
+
     pub ani_story_sp: Option<i16>,
     pub ani_story_cg: Option<i16>,
     pub ani_cutscene: Option<i16>,
