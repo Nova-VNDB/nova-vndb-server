@@ -5,11 +5,11 @@ use super::language::Language;
 #[sqlx(type_name = "producer_type", rename_all = "snake_case")]
 pub enum ProducerType {
     /// Company.
-    Co,
+    Company,
     /// Individual.
-    In,
+    Individual,
     /// Non-profit / doujin group.
-    Ng,
+    NonProfit,
 }
 
 /// Relationship type between two producers.

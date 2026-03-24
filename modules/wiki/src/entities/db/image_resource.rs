@@ -1,10 +1,9 @@
-/// Discriminates between cover images (`cv`), character images (`ch`), and screenshots (`sf`).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "image_type", rename_all = "snake_case")]
 pub enum ImageType {
-    Cv,
-    Ch,
-    Sf,
+    CoverImage,
+    Character,
+    Screenshot,
 }
 
 /// An image asset stored by VNDB.
