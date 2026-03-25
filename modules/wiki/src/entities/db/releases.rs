@@ -87,18 +87,24 @@ pub enum Platform {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "release_image_type", rename_all = "snake_case")]
 pub enum ReleaseImageType {
-    PkgFront,
-    PkgBack,
-    PkgContent,
-    PkgSide,
-    PkgMedium,
-    Dig,
+    #[sqlx(rename = "pkg_front")]
+    PackageFront,
+    #[sqlx(rename = "pkg_back")]
+    PackageBack,
+    #[sqlx(rename = "pkg_content")]
+    PackageContent,
+    #[sqlx(rename = "pkg_side")]
+    PackageSide,
+    #[sqlx(rename = "pkg_medium")]
+    PackageMedium,
+    #[sqlx(rename = "dig")]
+    Digital,
 }
 
 /// A release of one or more visual novels.
 ///
 /// `ani_story` and `ani_ero` are deprecated; animation detail is now stored in
-/// the `ani_*_sp` / `ani_*_cg` columns. Animation flag columns use
+/// the `animation_*_sprite` / `animation_*_cg` columns. Animation flag columns use
 /// `Option<i16>` to represent the `animation` domain (`NULL` = not applicable).
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Release {
@@ -110,21 +116,29 @@ pub struct Release {
     pub released: i32,
     pub voiced: i16,
 
-    /// Horizontal resolution. When 0, `reso_y` encodes special values.
+    /// Horizontal resolution. When 0, `resolution_y` encodes special values.
     pub resolution_x: Option<i16>,
     pub resolution_y: Option<i16>,
 
     /// Age rating 0–18.
     pub age_rating: Option<i16>,
 
-    pub ani_story_sp: Option<i16>,
-    pub ani_story_cg: Option<i16>,
-    pub ani_cutscene: Option<i16>,
-    pub ani_ero_sp: Option<i16>,
-    pub ani_ero_cg: Option<i16>,
-    pub ani_bg: BoolOrUnknown,
-    pub ani_face: BoolOrUnknown,
-    pub has_ero: bool,
+    #[sqlx(rename = "ani_story_sp")]
+    pub animation_story_sprite: Option<i16>,
+    #[sqlx(rename = "ani_story_cg")]
+    pub animation_story_cg: Option<i16>,
+    #[sqlx(rename = "ani_cutscene")]
+    pub animation_cutscene: Option<i16>,
+    #[sqlx(rename = "ani_ero_sp")]
+    pub animation_erotic_sprite: Option<i16>,
+    #[sqlx(rename = "ani_ero_cg")]
+    pub animation_erotic_cg: Option<i16>,
+    #[sqlx(rename = "ani_bg")]
+    pub animation_background: BoolOrUnknown,
+    #[sqlx(rename = "ani_face")]
+    pub animation_face: BoolOrUnknown,
+    #[sqlx(rename = "has_ero")]
+    pub has_erotic_content: bool,
     pub patch: bool,
     pub freeware: bool,
     pub uncensored: BoolOrUnknown,
@@ -140,7 +154,8 @@ pub struct ReleaseTitle {
     pub release_id: i32,
     pub lang: Language,
     /// Machine-translated when `true`.
-    pub mtl: bool,
+    #[sqlx(rename = "mtl")]
+    pub machine_translated: bool,
     pub title: Option<String>,
     pub latin: Option<String>,
 }
@@ -150,7 +165,8 @@ pub struct ReleaseTitle {
 pub struct ReleaseVn {
     pub release_id: i32,
     pub vn_id: i32,
-    pub rtype: ReleaseType,
+    #[sqlx(rename = "rtype")]
+    pub release_type: ReleaseType,
 }
 
 /// DRM applied to a release, with optional notes.
@@ -174,7 +190,8 @@ pub struct ReleaseImage {
     pub release_id: i32,
     pub image_id: i32,
     pub vn_id: Option<i32>,
-    pub itype: ReleaseImageType,
+    #[sqlx(rename = "itype")]
+    pub image_type: ReleaseImageType,
 }
 
 /// A language associated with a release package image.
@@ -190,7 +207,8 @@ pub struct ReleaseImageLang {
 pub struct ReleaseMedium {
     pub release_id: i32,
     pub medium: Medium,
-    pub qty: i16,
+    #[sqlx(rename = "qty")]
+    pub quantity: i16,
 }
 
 /// A target platform for a release.

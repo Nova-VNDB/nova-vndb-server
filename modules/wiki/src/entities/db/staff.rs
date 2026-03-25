@@ -20,7 +20,6 @@ pub struct Staff {
     pub id: i32,
     pub gender: StaffGender,
     pub lang: Language,
-    /// Primary alias ID (`aid`) for this staff entry.
     pub main_alias_id: i32,
     pub description: String,
     /// Linked producer entry, if this staff member is also a company/group.
@@ -29,11 +28,12 @@ pub struct Staff {
 
 /// An alias (name variant) for a staff member.
 ///
-/// `aid` is globally unique across all staff entries.
+/// `alias_id` is globally unique across all staff entries.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct StaffAlias {
     pub staff_id: i32,
-    pub aid: i32,
+    #[sqlx(rename = "aid")]
+    pub alias_id: i32,
     pub name: String,
     pub latin: Option<String>,
 }

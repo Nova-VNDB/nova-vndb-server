@@ -16,14 +16,22 @@ pub enum ProducerType {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "producer_relation", rename_all = "snake_case")]
 pub enum ProducerRelationType {
-    Old,
-    New,
-    Sub,
-    Par,
-    Imp,
-    Ipa,
-    Spa,
-    Ori,
+    #[sqlx(rename = "old")]
+    OldName,
+    #[sqlx(rename = "new")]
+    NewName,
+    #[sqlx(rename = "sub")]
+    Subsidiary,
+    #[sqlx(rename = "par")]
+    ParentCompany,
+    #[sqlx(rename = "imp")]
+    Imprint,
+    #[sqlx(rename = "ipa")]
+    ImprintOfParent,
+    #[sqlx(rename = "spa")]
+    SubsidiaryOfParent,
+    #[sqlx(rename = "ori")]
+    OriginalBrand,
 }
 
 /// A game developer or publisher.

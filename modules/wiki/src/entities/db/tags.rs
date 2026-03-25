@@ -2,17 +2,22 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "tag_category", rename_all = "snake_case")]
 pub enum TagCategory {
-    Cont,
-    Ero,
-    Tech,
+    #[sqlx(rename = "cont")]
+    Content,
+    #[sqlx(rename = "ero")]
+    Erotic,
+    #[sqlx(rename = "tech")]
+    Technical,
 }
 
 /// A community-defined tag that can be applied to visual novels.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Tag {
     pub id: i32,
-    pub cat: TagCategory,
-    pub defaultspoil: i16,
+    #[sqlx(rename = "cat")]
+    pub category: TagCategory,
+    #[sqlx(rename = "defaultspoil")]
+    pub default_spoil_level: i16,
     pub searchable: bool,
     pub applicable: bool,
     pub name: String,

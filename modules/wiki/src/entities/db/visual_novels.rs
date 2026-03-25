@@ -4,16 +4,26 @@ use super::language::Language;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "vn_relation", rename_all = "snake_case")]
 pub enum VnRelationType {
-    Seq,
-    Preq,
-    Set,
-    Alt,
-    Char,
-    Side,
-    Par,
-    Ser,
-    Fan,
-    Orig,
+    #[sqlx(rename = "seq")]
+    Sequel,
+    #[sqlx(rename = "preq")]
+    Prequel,
+    #[sqlx(rename = "set")]
+    SameSetting,
+    #[sqlx(rename = "alt")]
+    AlternativeVersion,
+    #[sqlx(rename = "char")]
+    SharesCharacters,
+    #[sqlx(rename = "side")]
+    SideStory,
+    #[sqlx(rename = "par")]
+    ParentStory,
+    #[sqlx(rename = "ser")]
+    SameSeries,
+    #[sqlx(rename = "fan")]
+    Fandisc,
+    #[sqlx(rename = "orig")]
+    OriginalGame,
 }
 
 /// Staff credit type on a visual novel.
@@ -21,14 +31,16 @@ pub enum VnRelationType {
 #[sqlx(type_name = "credit_type", rename_all = "snake_case")]
 pub enum CreditType {
     Scenario,
-    Chardesign,
+    #[sqlx(rename = "chardesign")]
+    CharacterDesign,
     Art,
     Music,
     Songs,
     Director,
     Translator,
     Editor,
-    Qa,
+    #[sqlx(rename = "qa")]
+    QualityAssurance,
     Staff,
 }
 
@@ -40,11 +52,13 @@ pub enum CreditType {
 pub struct Vn {
     pub id: i32,
     /// Original language of the VN.
-    pub olang: Language,
+    #[sqlx(rename = "olang")]
+    pub original_language: Language,
     /// Legacy length rating: 0 = unknown … 5 = very long.
     pub length: i16,
     /// Development status: 0 = finished, 1 = ongoing, 2 = cancelled.
-    pub devstatus: i16,
+    #[sqlx(rename = "devstatus")]
+    pub development_status: i16,
     pub description: String,
 }
 
@@ -83,12 +97,13 @@ pub struct VnAnime {
 
 /// A localisation edition of a visual novel.
 ///
-/// `eid` is local to the VN and is not stable across revisions.
+/// `edition_id` is local to the VN and is not stable across revisions.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct VnEdition {
     pub vn_id: i32,
     pub lang: Option<Language>,
-    pub eid: i16,
+    #[sqlx(rename = "eid")]
+    pub edition_id: i16,
     pub official: bool,
     pub name: String,
 }
@@ -112,7 +127,8 @@ pub struct VnScreenshot {
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct VnImageVote {
     pub vn_id: i32,
-    pub uid: i32,
+    #[sqlx(rename = "uid")]
+    pub user_id: i32,
     pub image_id: i32,
 }
 
@@ -137,12 +153,13 @@ pub struct VnSeiyuu {
 
 /// A user's estimated play-length vote for a VN.
 ///
-/// `uid` is `None` for anonymous votes.
+/// `user_id` is `None` for anonymous votes.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct VnLengthVote {
     pub vote_id: i64,
     pub vn_id: i32,
-    pub uid: Option<i32>,
+    #[sqlx(rename = "uid")]
+    pub user_id: Option<i32>,
     pub date: time::Date,
     /// Estimated play length in minutes.
     pub length: i16,

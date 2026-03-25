@@ -2,13 +2,18 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "anime_type", rename_all = "lowercase")]
 pub enum AnimeType {
-    Tv,
+    #[sqlx(rename = "tv")]
+    TvSeries,
     Ova,
-    Mov,
-    Oth,
+    #[sqlx(rename = "mov")]
+    Movie,
+    #[sqlx(rename = "oth")]
+    Other,
     Web,
-    Spe,
-    Mv,
+    #[sqlx(rename = "spe")]
+    Special,
+    #[sqlx(rename = "mv")]
+    MusicVideo,
 }
 
 /// Anime information fetched from AniDB, used only for cross-referencing with VNs.

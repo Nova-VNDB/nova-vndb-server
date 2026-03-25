@@ -1,14 +1,17 @@
 /// A character trait that can be applied to characters.
 ///
-/// `gid` caches the root group trait for display purposes.
+/// `group_id` caches the root group trait for display purposes.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Trait {
     pub id: i32,
     /// Trait group (cached: main parent's root trait).
-    pub gid: Option<i32>,
-    /// Group order; only meaningful when `gid` is `None`.
-    pub gorder: i16,
-    pub defaultspoil: i16,
+    #[sqlx(rename = "gid")]
+    pub group_id: Option<i32>,
+    /// Group order; only meaningful when `group_id` is `None`.
+    #[sqlx(rename = "gorder")]
+    pub group_order: i16,
+    #[sqlx(rename = "defaultspoil")]
+    pub default_spoil_level: i16,
     pub sexual: bool,
     pub searchable: bool,
     pub applicable: bool,
