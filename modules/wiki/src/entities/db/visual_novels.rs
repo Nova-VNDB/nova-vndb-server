@@ -44,6 +44,38 @@ pub enum CreditType {
     Staff,
 }
 
+/// Legacy play-length rating for a VN.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+#[sqlx(type_name = "vn_length", rename_all = "snake_case")]
+pub enum VnLength {
+    Unknown,
+    VeryShort,
+    Short,
+    Medium,
+    Long,
+    VeryLong,
+}
+
+/// Development / release status of a visual novel.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+#[sqlx(type_name = "development_status", rename_all = "snake_case")]
+pub enum DevelopmentStatus {
+    Finished,
+    Ongoing,
+    Cancelled,
+}
+
+/// Self-reported reading speed when submitting a play-length vote.
+///
+/// `None` means the voter did not report their speed.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+#[sqlx(type_name = "reading_speed", rename_all = "snake_case")]
+pub enum ReadingSpeed {
+    Slow,
+    Normal,
+    Fast,
+}
+
 /// A visual novel entry.
 ///
 /// Cached/computed columns (`c_image`, `c_votecount`, etc.) are omitted;
@@ -54,11 +86,10 @@ pub struct Vn {
     /// Original language of the VN.
     #[sqlx(rename = "olang")]
     pub original_language: Language,
-    /// Legacy length rating: 0 = unknown … 5 = very long.
-    pub length: i16,
-    /// Development status: 0 = finished, 1 = ongoing, 2 = cancelled.
+    /// Legacy length rating.
+    pub length: VnLength,
     #[sqlx(rename = "devstatus")]
-    pub development_status: i16,
+    pub development_status: DevelopmentStatus,
     pub description: String,
 }
 
@@ -163,8 +194,8 @@ pub struct VnLengthVote {
     pub date: time::Date,
     /// Estimated play length in minutes.
     pub length: i16,
-    /// Reader speed: `None` = uncounted; 0 = slow; 1 = normal; 2 = fast.
-    pub speed: Option<i16>,
+    /// `None` means the voter did not report their reading speed.
+    pub speed: Option<ReadingSpeed>,
     pub notes: String,
 }
 

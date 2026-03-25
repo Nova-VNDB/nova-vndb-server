@@ -1,3 +1,5 @@
+use crate::entities::db::SpoilLevel;
+
 /// A character trait that can be applied to characters.
 ///
 /// `group_id` caches the root group trait for display purposes.
@@ -11,7 +13,7 @@ pub struct Trait {
     #[sqlx(rename = "gorder")]
     pub group_order: i16,
     #[sqlx(rename = "defaultspoil")]
-    pub default_spoil_level: i16,
+    pub default_spoil_level: SpoilLevel,
     pub sexual: bool,
     pub searchable: bool,
     pub applicable: bool,

@@ -1,3 +1,5 @@
+use crate::entities::db::SpoilLevel;
+
 /// Broad category that a tag belongs to.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "tag_category", rename_all = "snake_case")]
@@ -17,7 +19,7 @@ pub struct Tag {
     #[sqlx(rename = "cat")]
     pub category: TagCategory,
     #[sqlx(rename = "defaultspoil")]
-    pub default_spoil_level: i16,
+    pub default_spoil_level: SpoilLevel,
     pub searchable: bool,
     pub applicable: bool,
     pub name: String,

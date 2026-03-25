@@ -1,4 +1,5 @@
 use super::language::Language;
+use crate::entities::db::SpoilLevel;
 use time::Date;
 
 /// Biological sex of a character.
@@ -142,14 +143,14 @@ pub struct Char {
 pub struct CharInstance {
     pub char_id: i32,
     pub main_id: i32,
-    pub main_spoil: i16,
+    pub main_spoil: SpoilLevel,
 }
 
 /// An alias for a character, with an associated spoiler level.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct CharAlias {
     pub char_id: i32,
-    pub spoil: i16,
+    pub spoil: SpoilLevel,
     pub name: String,
     pub latin: Option<String>,
 }
@@ -168,7 +169,7 @@ pub struct CharName {
 pub struct CharTrait {
     pub char_id: i32,
     pub trait_id: i32,
-    pub spoil: i16,
+    pub spoil: SpoilLevel,
     /// When `true`, the character only pretends to have this trait.
     pub lie: bool,
 }
@@ -180,5 +181,5 @@ pub struct CharVn {
     pub vn_id: i32,
     pub release_id: Option<i32>,
     pub role: CharRole,
-    pub spoil: i16,
+    pub spoil: SpoilLevel,
 }

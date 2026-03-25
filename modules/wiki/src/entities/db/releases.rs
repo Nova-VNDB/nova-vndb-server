@@ -101,11 +101,36 @@ pub enum ReleaseImageType {
     Digital,
 }
 
+/// Voicing coverage of a release.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+#[sqlx(type_name = "voiced_level", rename_all = "snake_case")]
+pub enum VoicedLevel {
+    NotApplicable,
+    NotVoiced,
+    EroScenesOnly,
+    PartiallyVoiced,
+    FullyVoiced,
+}
+
+/// Animation quality level for a particular category of scenes.
+///
+/// `None` (stored as NULL) means animation data is not applicable for this release.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
+#[sqlx(type_name = "animation_level", rename_all = "snake_case")]
+pub enum AnimationLevel {
+    /// Basic looping animations (e.g. blinking, lip sync).
+    Simple,
+    /// Some scenes have animation sequences.
+    Partial,
+    /// All or most scenes are fully animated.
+    Full,
+}
+
 /// A release of one or more visual novels.
 ///
-/// `ani_story` and `ani_ero` are deprecated; animation detail is now stored in
-/// the `animation_*_sprite` / `animation_*_cg` columns. Animation flag columns use
-/// `Option<i16>` to represent the `animation` domain (`NULL` = not applicable).
+/// Cached/computed columns are omitted; `animation_background` and
+/// `animation_face` use `BoolOrUnknown` because they are binary flags
+/// (animated or not) rather than graded levels.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Release {
     pub id: i32,
@@ -114,7 +139,7 @@ pub struct Release {
     /// Language of the main display title.
     pub original_language: Language,
     pub released: i32,
-    pub voiced: i16,
+    pub voiced: VoicedLevel,
 
     /// Horizontal resolution. When 0, `resolution_y` encodes special values.
     pub resolution_x: Option<i16>,
@@ -124,15 +149,15 @@ pub struct Release {
     pub age_rating: Option<i16>,
 
     #[sqlx(rename = "ani_story_sp")]
-    pub animation_story_sprite: Option<i16>,
+    pub animation_story_sprite: Option<AnimationLevel>,
     #[sqlx(rename = "ani_story_cg")]
-    pub animation_story_cg: Option<i16>,
+    pub animation_story_cg: Option<AnimationLevel>,
     #[sqlx(rename = "ani_cutscene")]
-    pub animation_cutscene: Option<i16>,
+    pub animation_cutscene: Option<AnimationLevel>,
     #[sqlx(rename = "ani_ero_sp")]
-    pub animation_erotic_sprite: Option<i16>,
+    pub animation_erotic_sprite: Option<AnimationLevel>,
     #[sqlx(rename = "ani_ero_cg")]
-    pub animation_erotic_cg: Option<i16>,
+    pub animation_erotic_cg: Option<AnimationLevel>,
     #[sqlx(rename = "ani_bg")]
     pub animation_background: BoolOrUnknown,
     #[sqlx(rename = "ani_face")]
