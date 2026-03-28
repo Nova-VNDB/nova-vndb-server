@@ -88,7 +88,7 @@ pub enum CupSize {
 
 /// A character entry.
 ///
-/// `(main, main_spoil)` have been extracted to [`CharInstance`] (DKNF BCNF).
+/// `(main, main_spoil)` have been extracted to [CharInstance].
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Char {
     pub id: i32,
@@ -109,15 +109,12 @@ pub struct Char {
     pub spoil_gender: Option<CharGender>,
 
     /// Bust measurement in cm.
-    #[sqlx(rename = "s_bust")]
     pub bust: Option<i16>,
 
     /// Waist measurement in cm.
-    #[sqlx(rename = "s_waist")]
     pub waist: Option<i16>,
 
     /// Hip measurement in cm.
-    #[sqlx(rename = "s_hip")]
     pub hip: Option<i16>,
 
     /// Birthday encoded as `0` (unknown) or `mmdd` (e.g. `1225` for Dec 25).

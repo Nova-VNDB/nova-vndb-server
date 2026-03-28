@@ -4,15 +4,12 @@ use crate::entities::db::SpoilLevel;
 ///
 /// `group_id` caches the root group trait for display purposes.
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
-pub struct Trait {
+pub struct TraitData {
     pub id: i32,
     /// Trait group (cached: main parent's root trait).
-    #[sqlx(rename = "gid")]
     pub group_id: Option<i32>,
     /// Group order; only meaningful when `group_id` is `None`.
-    #[sqlx(rename = "gorder")]
     pub group_order: i16,
-    #[sqlx(rename = "defaultspoil")]
     pub default_spoil_level: SpoilLevel,
     pub sexual: bool,
     pub searchable: bool,

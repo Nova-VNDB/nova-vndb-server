@@ -4,25 +4,15 @@ use super::language::Language;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "vn_relation", rename_all = "snake_case")]
 pub enum VnRelationType {
-    #[sqlx(rename = "seq")]
     Sequel,
-    #[sqlx(rename = "preq")]
     Prequel,
-    #[sqlx(rename = "set")]
     SameSetting,
-    #[sqlx(rename = "alt")]
     AlternativeVersion,
-    #[sqlx(rename = "char")]
     SharesCharacters,
-    #[sqlx(rename = "side")]
     SideStory,
-    #[sqlx(rename = "par")]
     ParentStory,
-    #[sqlx(rename = "ser")]
     SameSeries,
-    #[sqlx(rename = "fan")]
     Fandisc,
-    #[sqlx(rename = "orig")]
     OriginalGame,
 }
 
@@ -31,7 +21,6 @@ pub enum VnRelationType {
 #[sqlx(type_name = "credit_type", rename_all = "snake_case")]
 pub enum CreditType {
     Scenario,
-    #[sqlx(rename = "chardesign")]
     CharacterDesign,
     Art,
     Music,
@@ -39,7 +28,6 @@ pub enum CreditType {
     Director,
     Translator,
     Editor,
-    #[sqlx(rename = "qa")]
     QualityAssurance,
     Staff,
 }
@@ -84,11 +72,9 @@ pub enum ReadingSpeed {
 pub struct Vn {
     pub id: i32,
     /// Original language of the VN.
-    #[sqlx(rename = "olang")]
     pub original_language: Language,
     /// Legacy length rating.
     pub length: VnLength,
-    #[sqlx(rename = "devstatus")]
     pub development_status: DevelopmentStatus,
     pub description: String,
 }
@@ -133,7 +119,6 @@ pub struct VnAnime {
 pub struct VnEdition {
     pub vn_id: i32,
     pub lang: Option<Language>,
-    #[sqlx(rename = "eid")]
     pub edition_id: i16,
     pub official: bool,
     pub name: String,
@@ -158,7 +143,6 @@ pub struct VnScreenshot {
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct VnImageVote {
     pub vn_id: i32,
-    #[sqlx(rename = "uid")]
     pub user_id: i32,
     pub image_id: i32,
 }
@@ -189,7 +173,6 @@ pub struct VnSeiyuu {
 pub struct VnLengthVote {
     pub vote_id: i64,
     pub vn_id: i32,
-    #[sqlx(rename = "uid")]
     pub user_id: Option<i32>,
     pub date: time::Date,
     /// Estimated play length in minutes.

@@ -4,7 +4,7 @@
 /// and unchanged), but hyphenated codes and mixed-case codes are overridden
 /// with an explicit `#[sqlx(rename = "...")]`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
-#[sqlx(type_name = "language", rename_all = "snake_case")]
+#[sqlx(type_name = "language", rename_all = "lowercase")]
 pub enum Language {
     Ar,
     Be,

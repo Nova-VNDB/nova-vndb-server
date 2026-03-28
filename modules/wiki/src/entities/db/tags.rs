@@ -4,11 +4,8 @@ use crate::entities::db::SpoilLevel;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "tag_category", rename_all = "snake_case")]
 pub enum TagCategory {
-    #[sqlx(rename = "cont")]
     Content,
-    #[sqlx(rename = "ero")]
     Erotic,
-    #[sqlx(rename = "tech")]
     Technical,
 }
 
@@ -16,9 +13,7 @@ pub enum TagCategory {
 #[derive(Debug, Clone, Eq, PartialEq, sqlx::FromRow)]
 pub struct Tag {
     pub id: i32,
-    #[sqlx(rename = "cat")]
     pub category: TagCategory,
-    #[sqlx(rename = "defaultspoil")]
     pub default_spoil_level: SpoilLevel,
     pub searchable: bool,
     pub applicable: bool,

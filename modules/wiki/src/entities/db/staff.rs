@@ -6,12 +6,10 @@ use super::language::Language;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "staff_gender", rename_all = "snake_case")]
 pub enum StaffGender {
-    #[sqlx(rename = "")]
     Unknown,
-    #[sqlx(rename = "m")]
     Male,
-    #[sqlx(rename = "f")]
     Female,
+    Other
 }
 
 /// A staff member (writer, artist, musician, etc.).

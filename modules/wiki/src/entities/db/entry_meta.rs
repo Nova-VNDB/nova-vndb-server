@@ -3,9 +3,7 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "entity_type", rename_all = "snake_case")]
 pub enum EntityType {
-    #[sqlx(rename = "vn")]
     VisualNovel,
-    #[sqlx(rename = "char")]
     Character,
     Producer,
     Release,
@@ -22,7 +20,6 @@ pub struct EntryMeta {
     pub entity_type: EntityType,
     pub id: i32,
     pub created: time::Date,
-    #[sqlx(rename = "lastmod")]
     pub last_modified: time::Date,
     pub revision: i16,
     pub num_edits: i16,

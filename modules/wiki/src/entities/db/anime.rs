@@ -2,17 +2,12 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "anime_type", rename_all = "lowercase")]
 pub enum AnimeType {
-    #[sqlx(rename = "tv")]
     TvSeries,
     Ova,
-    #[sqlx(rename = "mov")]
     Movie,
-    #[sqlx(rename = "oth")]
     Other,
     Web,
-    #[sqlx(rename = "spe")]
     Special,
-    #[sqlx(rename = "mv")]
     MusicVideo,
 }
 

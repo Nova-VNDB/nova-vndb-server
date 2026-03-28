@@ -148,21 +148,13 @@ pub struct Release {
     /// Age rating 0–18.
     pub age_rating: Option<i16>,
 
-    #[sqlx(rename = "ani_story_sp")]
     pub animation_story_sprite: Option<AnimationLevel>,
-    #[sqlx(rename = "ani_story_cg")]
     pub animation_story_cg: Option<AnimationLevel>,
-    #[sqlx(rename = "ani_cutscene")]
     pub animation_cutscene: Option<AnimationLevel>,
-    #[sqlx(rename = "ani_ero_sp")]
     pub animation_erotic_sprite: Option<AnimationLevel>,
-    #[sqlx(rename = "ani_ero_cg")]
     pub animation_erotic_cg: Option<AnimationLevel>,
-    #[sqlx(rename = "ani_bg")]
     pub animation_background: BoolOrUnknown,
-    #[sqlx(rename = "ani_face")]
     pub animation_face: BoolOrUnknown,
-    #[sqlx(rename = "has_ero")]
     pub has_erotic_content: bool,
     pub patch: bool,
     pub freeware: bool,
@@ -179,7 +171,6 @@ pub struct ReleaseTitle {
     pub release_id: i32,
     pub lang: Language,
     /// Machine-translated when `true`.
-    #[sqlx(rename = "mtl")]
     pub machine_translated: bool,
     pub title: Option<String>,
     pub latin: Option<String>,
@@ -190,7 +181,6 @@ pub struct ReleaseTitle {
 pub struct ReleaseVn {
     pub release_id: i32,
     pub vn_id: i32,
-    #[sqlx(rename = "rtype")]
     pub release_type: ReleaseType,
 }
 
@@ -215,7 +205,6 @@ pub struct ReleaseImage {
     pub release_id: i32,
     pub image_id: i32,
     pub vn_id: Option<i32>,
-    #[sqlx(rename = "itype")]
     pub image_type: ReleaseImageType,
 }
 
@@ -232,7 +221,6 @@ pub struct ReleaseImageLang {
 pub struct ReleaseMedium {
     pub release_id: i32,
     pub medium: Medium,
-    #[sqlx(rename = "qty")]
     pub quantity: i16,
 }
 

@@ -16,21 +16,13 @@ pub enum ProducerType {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, sqlx::Type)]
 #[sqlx(type_name = "producer_relation", rename_all = "snake_case")]
 pub enum ProducerRelationType {
-    #[sqlx(rename = "old")]
     OldName,
-    #[sqlx(rename = "new")]
     NewName,
-    #[sqlx(rename = "sub")]
     Subsidiary,
-    #[sqlx(rename = "par")]
     ParentCompany,
-    #[sqlx(rename = "imp")]
     Imprint,
-    #[sqlx(rename = "ipa")]
     ImprintOfParent,
-    #[sqlx(rename = "spa")]
     SubsidiaryOfParent,
-    #[sqlx(rename = "ori")]
     OriginalBrand,
 }
 

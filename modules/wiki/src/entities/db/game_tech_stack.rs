@@ -3,10 +3,8 @@
 pub struct Drm {
     pub id: i32,
     pub disc: bool,
-    #[sqlx(rename = "cdkey")]
     pub cd_key: bool,
     pub activate: bool,
-    #[sqlx(rename = "alimit")]
     pub activation_limit: bool,
     pub account: bool,
     pub online: bool,
